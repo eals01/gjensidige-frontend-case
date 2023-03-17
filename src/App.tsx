@@ -1,23 +1,42 @@
-import React, { useEffect, useState } from 'react';
-import { fetchPokemon } from './utils';
-import { Pokemon } from './types';
+import { useEffect, useState } from 'react'
+import { fetchPokemon } from './utils'
+import { Pokemon } from './types'
+import { createGlobalStyle } from 'styled-components'
 
-import InfoContainer from './components/InfoContainer';
+import PokemonCard from './components/PokemonCard'
 
-import './app.css';
 
-const App = () => {
-  const [pokemon, setPokemon] = useState<Pokemon>();
+export default function App() {
+  const [pokemon, setPokemon] = useState<Pokemon>()
 
   useEffect(() => {
-    fetchPokemon('bulbasaur').then((res) => setPokemon(res));
-  }, []);
+    fetchPokemon('1').then(response => setPokemon(response))
+  }, [])
 
   return (
-    <div className='appRoot'>
-      <InfoContainer pokemon={pokemon} />
-    </div>
-  );
-};
+    <>
+      <GlobalStyle />
+      <PokemonCard pokemon={pokemon} />
+    </>
+  )
+}
 
-export default App;
+const GlobalStyle = createGlobalStyle`
+  * {
+    box-sizing: border-box;
+    padding: 0;
+    margin: 0;
+  }
+  
+  html, body {
+    width: 100%;
+    height: 100%;
+  }
+  
+  body {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-family: sans-serif;
+  }
+`

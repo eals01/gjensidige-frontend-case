@@ -13,7 +13,7 @@ interface Item {
   item: NameUrlPair;
 }
 
-interface Move {
+interface MoveInfo {
   move: NameUrlPair;
 }
 
@@ -27,7 +27,7 @@ interface Sprites extends SimpleSprite {
 
 interface OtherSprites {
   dream_world: SimpleSprite;
-  'official-artwork': SimpleSprite;
+  "official-artwork": SimpleSprite;
 }
 
 interface TypeOfPokemon {
@@ -41,10 +41,25 @@ export interface Pokemon {
   height: number;
   held_items: Item[];
   id: number;
-  moves: Move[];
+  moves: MoveInfo[];
   name: string;
   species: NameUrlPair;
   sprites: Sprites;
   types: TypeOfPokemon[];
   weight: number;
+}
+
+interface FlavorTextEntries {
+  flavor_text: string;
+}
+
+interface TypeOfMove {
+  name: string;
+}
+
+export interface Move {
+  name: string;
+  flavor_text_entries: FlavorTextEntries[];
+  type: TypeOfMove;
+  pp: number;
 }
