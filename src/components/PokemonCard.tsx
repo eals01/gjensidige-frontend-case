@@ -2,15 +2,14 @@ import { useEffect, useState } from 'react'
 import styled, { css } from 'styled-components'
 import { Move, Pokemon } from '../types'
 import { fetchMove } from '../utils'
-
-import TypeIcon from './TypeIcon'
-
-import grain from '../resources/grain.png'
 import { lookupTypeIcon } from '../resources/typeIcons/typeIcons'
+
 import SpriteWindow from './SpriteWindow'
 import CardHeader from './CardHeader'
 import MoveList from './MoveList'
 import CardInformation from './CardInformation'
+
+import grain from '../resources/grain.png'
 
 interface PokemonCardProps {
   pokemon?: Pokemon
@@ -35,7 +34,7 @@ export default function PokemonCard({ pokemon }: PokemonCardProps) {
   return (
     <PokemonCardContainer>
       <Content pokemonColor={pokemonColor}>
-        <img className='grain' src={grain} alt='background grain' />
+        <Grain src={grain} alt='background grain' />
         <CardHeader pokemon={pokemon} />
         <SpriteWindow pokemon={pokemon} />
         <CardInformation pokemon={pokemon} />
@@ -61,6 +60,8 @@ const PokemonCardContainer = styled.div`
   background: #ffe75d;
   border-radius: 1em;
   padding: 1em;
+
+  perspective: 600px;
 `
 
 interface ContentProps {
@@ -81,20 +82,20 @@ const Content = styled('div')(
     padding: 0.25em 0.5em;
     border-radius: 0.25em;
     box-shadow: 0px 0px 1px 1px rgba(46, 30, 0, 0.288) inset;
-
-    > .grain {
-      position: absolute;
-      left: 0;
-      top: 0;
-
-      width: 100%;
-      height: 100%;
-
-      border-radius: 0.25em;
-      mix-blend-mode: multiply;
-    }
   `
 )
+
+const Grain = styled.img`
+  position: absolute;
+  left: 0;
+  top: 0;
+
+  width: 100%;
+  height: 100%;
+
+  border-radius: 0.25em;
+  mix-blend-mode: multiply;
+`
 
 const Copyright = styled.span`
   position: absolute;

@@ -4,6 +4,7 @@ import { Pokemon } from './types'
 import { createGlobalStyle } from 'styled-components'
 
 import PokemonCard from './components/PokemonCard'
+import MovableCard from './components/MovableCard'
 
 
 export default function App() {
@@ -16,7 +17,9 @@ export default function App() {
   return (
     <>
       <GlobalStyle />
-      <PokemonCard pokemon={pokemon} />
+      <MovableCard>
+        <PokemonCard pokemon={pokemon} />
+      </MovableCard>
     </>
   )
 }
