@@ -1,8 +1,8 @@
-import styled from "styled-components"
-import { Pokemon } from "../types"
+import styled from "styled-components";
+import { Pokemon } from "../types";
 
 interface SpriteWindowProps {
-  pokemon: Pokemon
+  pokemon: Pokemon;
 }
 
 export default function SpriteWindow({ pokemon }: SpriteWindowProps) {
@@ -11,7 +11,7 @@ export default function SpriteWindow({ pokemon }: SpriteWindowProps) {
       src={pokemon.sprites.other.dream_world.front_default}
       alt={`${pokemon.name} illustration`}
     />
-  </SpriteWindowContainer>
+  </SpriteWindowContainer>;
 }
 
 const SpriteWindowContainer = styled.div`
@@ -32,4 +32,4 @@ const SpriteWindowContainer = styled.div`
     max-width: 90%;
     filter: drop-shadow(3px 3px 6px rgba(0, 0, 0, 0.5));
   }
-`
+`;

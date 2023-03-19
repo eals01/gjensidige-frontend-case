@@ -1,14 +1,14 @@
-import styled from "styled-components"
-import { Pokemon } from "../types"
+import styled from "styled-components";
+import { Pokemon } from "../types";
 
 interface CardInformationProps {
-    pokemon: Pokemon
+    pokemon: Pokemon;
 }
 
 export default function CardInformation({ pokemon }: CardInformationProps) {
     return <CardInformationContainer>
         <span>{`NO: ${pokemon.id}. HT: ${pokemon.height} dm. WT: ${pokemon.weight} hg.`}</span>
-    </CardInformationContainer>
+    </CardInformationContainer>;
 }
 
 const CardInformationContainer = styled.div`
@@ -23,4 +23,4 @@ const CardInformationContainer = styled.div`
     font-size: 0.8em;
     font-weight: bold;
     transform: perspective(10px) rotateX(1deg);
-`
+`;

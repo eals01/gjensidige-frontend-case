@@ -27,7 +27,7 @@ export default function PokemonList({ collectedPokemon, displayCollectedPokemon 
             {collectedPokemon.length === 0 && (
                 <Placeholder>
                     <span>Samlede Pokémon vises her</span>
-                    <img src={pikachuIcon} />
+                    <img src={pikachuIcon} alt='pikachu icon' />
                 </Placeholder>
             )}
             <ListContainer
@@ -46,13 +46,14 @@ export default function PokemonList({ collectedPokemon, displayCollectedPokemon 
                                 transition={{ duration: 0.5, delay: 0.3 }}
                                 onClick={() => displayCollectedPokemon(pokemon)}
                             >
-                                <img src={pokemon.sprites.front_default} alt={pokemon.name} />
+                                <img src={pokemon.sprites.front_default} alt={`${pokemon.name} sprite`} />
                                 <span>{pokemon.name}</span>
                             </ListItem>
                         );
                     })}
                 </List>
             </ListContainer>
+            <BottomGradient className='bruh' />
         </PokemonListContainer>
     );
 }
@@ -64,7 +65,7 @@ const PokemonListContainer = styled.div`
     height: 100%;
     flex: 0 0 500;
     
-    background: #e7e7e780;
+    background: #e7e7e7;
 `;
 
 const Placeholder = styled.div`
@@ -108,6 +109,11 @@ const ExpandButton = styled.div`
 `;
 
 const ListContainer = styled.div`
+    position: relative;
+
+    overflow-y: scroll;
+    height: 100%;
+    max-height: calc(100vh - 60px);
 `;
 
 const List = styled.div`
@@ -141,4 +147,16 @@ const ListItem = styled.div`
         text-transform: capitalize;
         font-weight: bold;
     }
+`;
+
+const BottomGradient = styled.div`
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    
+    width: 100%;
+    height: 50px;
+    background: linear-gradient(180deg, #e7e7e700 0%, #e7e7e7ff 75%);
+    
+    pointer-events: none;
 `;

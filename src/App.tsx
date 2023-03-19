@@ -21,9 +21,10 @@ export default function App() {
   }, [drawnPokemonID]);
 
   function handleDraw() {
+    const highestPossiblePokemonID = 649;
     handleDismiss();
     setTimeout(() => {
-      setDrawnPokemonID(Math.ceil(Math.random() * 100));
+      setDrawnPokemonID(Math.ceil(Math.random() * highestPossiblePokemonID));
     }, 2100);
   }
 

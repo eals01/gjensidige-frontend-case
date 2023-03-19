@@ -3,18 +3,13 @@ interface NameUrlPair {
   url: string;
 }
 
-interface Ability {
-  ability: NameUrlPair;
-  is_hidden: boolean;
-  slot: number;
-}
-
-interface Item {
-  item: NameUrlPair;
+interface VersionGroupDetails {
+  level_learned_at: number;
 }
 
 interface MoveInfo {
   move: NameUrlPair;
+  version_group_details: VersionGroupDetails[];
 }
 
 interface SimpleSprite {
@@ -27,23 +22,26 @@ interface Sprites extends SimpleSprite {
 
 interface OtherSprites {
   dream_world: SimpleSprite;
-  "official-artwork": SimpleSprite;
+  'official-artwork': SimpleSprite;
 }
 
-interface TypeOfPokemon {
+interface DamageRelations {
+  double_damage_from: NameUrlPair[];
+  half_damage_from: NameUrlPair[];
+}
+
+export interface TypeOfPokemon {
+  name: string;
   type: NameUrlPair;
+  damage_relations: DamageRelations;
 }
 
 export interface Pokemon {
-  abilities: Ability[];
   base_experience: number;
-  forms: NameUrlPair[];
   height: number;
-  held_items: Item[];
   id: number;
   moves: MoveInfo[];
   name: string;
-  species: NameUrlPair;
   sprites: Sprites;
   types: TypeOfPokemon[];
   weight: number;

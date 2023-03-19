@@ -1,10 +1,10 @@
-import styled from "styled-components"
-import { Move } from "../types"
+import styled from "styled-components";
+import { Move } from "../types";
 
-import TypeIcon from "./TypeIcon"
+import TypeIcon from "./TypeIcon";
 
 interface MoveListProps {
-    moves: Move[]
+    moves: Move[];
 }
 
 export default function MoveList({ moves }: MoveListProps) {
@@ -23,18 +23,18 @@ export default function MoveList({ moves }: MoveListProps) {
                         {move.flavor_text_entries[0].flavor_text}
                     </span>
                 </PokemonMove>
-            )
+            );
         })}
-    </MoveListContainer>
+    </MoveListContainer>;
 }
 
-const MoveListContainer = styled.div``
+const MoveListContainer = styled.div``;
 
 const PokemonMove = styled.div`
   > .moveDescription {
       font-size: 0.6em;
     }
-`
+`;
 
 const MoveHeader = styled.div`
   display: flex;
@@ -50,4 +50,4 @@ const MoveHeader = styled.div`
       margin-left: 2em;
     }
   }
-`
+`;

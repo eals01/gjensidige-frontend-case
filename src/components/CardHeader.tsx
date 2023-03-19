@@ -1,10 +1,10 @@
-import styled from "styled-components"
-import { Pokemon } from "../types"
+import styled from "styled-components";
+import { Pokemon } from "../types";
 
-import TypeIcon from "./TypeIcon"
+import TypeIcon from "./TypeIcon";
 
 interface CardHeaderProps {
-    pokemon: Pokemon
+    pokemon: Pokemon;
 }
 
 export default function CardHeader({ pokemon }: CardHeaderProps) {
@@ -12,8 +12,8 @@ export default function CardHeader({ pokemon }: CardHeaderProps) {
         <CardHeaderContainer>
             <Name>{pokemon.name}</Name>
             <Health>
-                <span className='healthPrefix'>HP</span>
-                <span className='healthPoints'>{pokemon.base_experience}</span>
+                <HealthPrefix>HP</HealthPrefix>
+                <HealthPoints>{pokemon.base_experience}</HealthPoints>
                 <TypeIcons>
                     {pokemon.types.map((type, index) => {
                         return (
@@ -21,24 +21,25 @@ export default function CardHeader({ pokemon }: CardHeaderProps) {
                                 key={`typeIcon${index}`}
                                 typeName={type.type.name}
                                 index={index}
+                                stacked
                             />
-                        )
+                        );
                     })}
                 </TypeIcons>
             </Health>
         </CardHeaderContainer>
-    )
+    );
 }
 
 const CardHeaderContainer = styled.div`
     display: flex;
     justify-content: space-between;
-`
+`;
 
 const Name = styled.h2`
   text-transform: capitalize;
     font-size: 1.2em;
-`
+`;
 
 const Health = styled.div`
   position: relative;
@@ -46,21 +47,22 @@ const Health = styled.div`
   display: flex;
   align-items: flex-end;
   align-items: center;
+`;
 
-  .healthPrefix {
+const HealthPrefix = styled.span`
     position: relative;
     top: 0.35em;
 
     font-size: 0.5em;
     font-weight: 800;
-  }
+`;
 
-  .healthPoints {
+const HealthPoints = styled.span`
     font-size: 1.2em;
     font-weight: 600;
-  }
-`
+    margin-right: 0.25em;
+`;
 
 const TypeIcons = styled.div`
   display: flex;
-`
+`;

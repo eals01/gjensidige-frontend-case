@@ -1,32 +1,34 @@
-import styled, { css } from 'styled-components'
-import { lookupTypeIcon } from '../resources/typeIcons/typeIcons'
+import styled, { css } from 'styled-components';
+import { lookupTypeIcon } from '../resources/typeIcons/typeIcons';
 
 interface TypeIconProps {
-  typeName: string
-  index?: number
+  typeName: string;
+  index?: number;
+  stacked?: boolean;
 }
 
-export default function TypeIcon({ typeName, index = 0 }: TypeIconProps) {
-  const { image, color } = lookupTypeIcon(typeName)
+export default function TypeIcon({ typeName, index = 0, stacked = false }: TypeIconProps) {
+  const { image, color } = lookupTypeIcon(typeName);
 
   return (
-    <TypeIconContainer color={color} index={index}>
+    <TypeIconContainer color={color} index={index} stacked={stacked}>
       <img src={image} alt={`${typeName} type icon`} />
     </TypeIconContainer>
-  )
+  );
 }
 
 interface TypeIconContainerProps {
-  color: string
-  index: number
+  color: string;
+  index: number;
+  stacked: boolean;
 }
 
 const TypeIconContainer = styled('div')(
-  ({ color, index }: TypeIconContainerProps) => css`
+  ({ color, index, stacked }: TypeIconContainerProps) => css`
     z-index: ${10 - index};
     width: 1.2em;
     height: 1.2em;
-    margin-left: -0.4em;
+    margin-left: ${stacked && '-0.4em'};
 
     display: flex;
     justify-content: center;
@@ -45,4 +47,4 @@ const TypeIconContainer = styled('div')(
       height: 65%;
     }
   `
-)
+);

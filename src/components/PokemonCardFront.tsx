@@ -1,56 +1,66 @@
-import { useEffect, useState } from 'react'
-import styled, { css } from 'styled-components'
-import { Move, Pokemon } from '../types'
-import { fetchMove } from '../utils'
-import { lookupTypeIcon } from '../resources/typeIcons/typeIcons'
+import { useEffect, useState } from 'react';
+import styled, { css } from 'styled-components';
+import { Move, Pokemon, TypeOfPokemon } from '../types';
+import { fetchMove, fetchType } from '../utils';
+import { lookupTypeIcon } from '../resources/typeIcons/typeIcons';
 
-import SpriteWindow from './SpriteWindow'
-import CardHeader from './CardHeader'
-import MoveList from './MoveList'
-import CardInformation from './CardInformation'
+import SpriteWindow from './SpriteWindow';
+import CardHeader from './CardHeader';
+import MoveList from './MoveList';
+import CardInformation from './CardInformation';
 
-import grain from '../resources/grain.png'
+import grain from '../resources/grain.png';
+import CardStats from './CardStats';
 
 interface PokemonCardProps {
-  pokemon?: Pokemon
+  pokemon?: Pokemon;
 }
 
 export default function PokemonCardFront({ pokemon }: PokemonCardProps) {
-  const [moves, setMoves] = useState<Move[]>([])
-  const [pokemonColor, setPokemonColor] = useState('')
+  const [type, setType] = useState<TypeOfPokemon>();
+  const [moves, setMoves] = useState<Move[]>([]);
+  const [cardColor, setCardColor] = useState('');
 
   useEffect(() => {
-    if (!pokemon) return
+    if (!pokemon) return;
+    const filteredMoves = pokemon.moves.filter((move) => move.version_group_details[0].level_learned_at > 0);
     Promise.all(
-      pokemon.moves.map(move => fetchMove(move.move.url))
+      filteredMoves.map(move => fetchMove(move.move.url))
     ).then(newMoves => {
-      setMoves(newMoves.slice(0, 2))
-    })
+      const filteredMoves = newMoves.filter((move) => move.type.name === pokemon.types[0].type.name);
+      setMoves(filteredMoves.slice(0, 2));
+    });
 
-    setPokemonColor(lookupTypeIcon(pokemon.types[0].type.name).color)
-  }, [pokemon])
+    fetchType(pokemon.types[0].type.url).then(newType => {
+      setType(newType);
+    });
 
-  if (!pokemon) return null
+    setCardColor(lookupTypeIcon(pokemon.types[0].type.name).color);
+  }, [pokemon]);
+
+
+
+
+  if (!pokemon || !type) return null;
   return (
     <PokemonCardContainer>
-      <Content pokemonColor={pokemonColor}>
+      <Content pokemonColor={cardColor}>
         <Grain src={grain} alt='background grain' />
         <CardHeader pokemon={pokemon} />
         <SpriteWindow pokemon={pokemon} />
         <CardInformation pokemon={pokemon} />
         <MoveList moves={moves} />
+        <CardStats type={type} />
       </Content>
       <Copyright>
         ©2023 Niantic. ©2023 Pokémon / Nintendo / Creatures / GAME FREAK /
         Erlend.
       </Copyright>
     </PokemonCardContainer>
-  )
+  );
 }
 
 const PokemonCardContainer = styled.div`
- 
- 
   display: flex;
   justify-content: center;
 
@@ -62,10 +72,10 @@ const PokemonCardContainer = styled.div`
   padding: 1em;
 
   perspective: 600px;
-`
+`;
 
 interface ContentProps {
-  pokemonColor: string
+  pokemonColor: string;
 }
 
 const Content = styled('div')(
@@ -83,7 +93,7 @@ const Content = styled('div')(
     border-radius: 0.25em;
     box-shadow: 0px 0px 1px 1px rgba(46, 30, 0, 0.288) inset;
   `
-)
+);
 
 const Grain = styled.img`
   position: absolute;
@@ -95,7 +105,7 @@ const Grain = styled.img`
 
   border-radius: 0.25em;
   mix-blend-mode: multiply;
-`
+`;
 
 const Copyright = styled.span`
   position: absolute;
@@ -103,4 +113,4 @@ const Copyright = styled.span`
   font-size: 0.03em;
   font-weight: bold;
   align-self: center;
-`
+`;
