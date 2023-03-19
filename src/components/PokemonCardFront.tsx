@@ -15,7 +15,7 @@ interface PokemonCardProps {
   pokemon?: Pokemon
 }
 
-export default function PokemonCard({ pokemon }: PokemonCardProps) {
+export default function PokemonCardFront({ pokemon }: PokemonCardProps) {
   const [moves, setMoves] = useState<Move[]>([])
   const [pokemonColor, setPokemonColor] = useState('')
 
@@ -49,8 +49,8 @@ export default function PokemonCard({ pokemon }: PokemonCardProps) {
 }
 
 const PokemonCardContainer = styled.div`
-  position: relative;
-
+ 
+ 
   display: flex;
   justify-content: center;
 
