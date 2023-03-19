@@ -1,43 +1,67 @@
-import { useEffect, useState } from 'react'
-import styled, { createGlobalStyle } from 'styled-components'
-import { AnimatePresence } from 'framer-motion'
-import { fetchPokemon } from './utils'
-import { Pokemon } from './types'
+import { useEffect, useState } from 'react';
+import styled, { createGlobalStyle } from 'styled-components';
+import { AnimatePresence } from 'framer-motion';
+import { fetchPokemon } from './utils';
+import { Pokemon } from './types';
 
-import MovableCard from './components/MovableCard'
+import MovableCard from './components/MovableCard';
+import PokemonList from './components/PokemonList';
 
 export default function App() {
-  const [drawnPokemonID, setDrawnPokemonID] = useState(Math.ceil(Math.random() * 100))
-  const [pokemon, setPokemon] = useState<Pokemon>()
-  const [isDrawn, setIsDrawn] = useState(false)
+  const [collectedPokemon, setCollectedPokemon] = useState<Pokemon[]>([]);
+  const [drawnPokemonID, setDrawnPokemonID] = useState(Math.ceil(Math.random() * 100));
+  const [showcasedPokemon, setShowcasedPokemon] = useState<Pokemon>();
+  const [isDrawn, setIsDrawn] = useState(false);
 
   useEffect(() => {
     fetchPokemon(`${drawnPokemonID}`).then(newPokemon => {
-      setPokemon(newPokemon)
-      setIsDrawn(true)
-    })
-  }, [drawnPokemonID])
+      setShowcasedPokemon(newPokemon);
+      setIsDrawn(true);
+    });
+  }, [drawnPokemonID]);
 
   function handleDraw() {
-    setDrawnPokemonID(Math.ceil(Math.random() * 100))
+    handleDismiss();
+    setTimeout(() => {
+      setDrawnPokemonID(Math.ceil(Math.random() * 100));
+    }, 2100);
   }
 
   function handleDismiss() {
-    setIsDrawn(false)
+    if (showcasedPokemon && !collectedPokemon.includes(showcasedPokemon)) {
+      setCollectedPokemon([...collectedPokemon, showcasedPokemon]);
+    }
+    setIsDrawn(false);
+  }
+
+  function displayCollectedPokemon(pokemon: Pokemon) {
+    handleDismiss();
+    setTimeout(() => {
+      setShowcasedPokemon(pokemon);
+      setIsDrawn(true);
+    }, 2100);
+
   }
 
   return (
     <>
       <GlobalStyle />
-      <AnimatePresence>
-        {isDrawn && <MovableCard pokemon={pokemon} />}
-      </AnimatePresence>
+      <Content>
+        <CardShowcase>
+          <AnimatePresence>
+            {isDrawn && <MovableCard pokemon={showcasedPokemon} />}
+          </AnimatePresence>
+        </CardShowcase>
+        <PokemonList
+          collectedPokemon={collectedPokemon}
+          displayCollectedPokemon={displayCollectedPokemon}
+        />
+      </Content>
       <Footer>
-        <button onClick={handleDraw}>Draw</button>
-        <button onClick={handleDismiss}>Dismiss</button>
+        <DrawButton onClick={handleDraw}>Trekk nytt kort</DrawButton>
       </Footer>
     </>
-  )
+  );
 }
 
 const GlobalStyle = createGlobalStyle`
@@ -57,17 +81,33 @@ const GlobalStyle = createGlobalStyle`
   #root {
     display: flex;
     flex-direction: column;
-    justify-content: center;
-    align-items: center;
 
     font-family: sans-serif;
   }
-`
+`;
+
+const CardShowcase = styled.div`
+  width: 100%;
+  height: 100%;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+`;
+
+const Content = styled.div`
+  position: relative;
+
+  width: 100%;
+  height: 100%;
+
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+`;
 
 const Footer = styled.div`
   z-index: 1;
-  position: absolute;
-  bottom: 0;
 
   display: flex;
   justify-content: center;
@@ -76,8 +116,15 @@ const Footer = styled.div`
   width: 100%;
   height: 4em;
   background: #e4000f;
+`;
 
-  > button {
-    padding: 1em;
+const DrawButton = styled.button`
+  padding: 1em;
+  font-weight: bold;
+  border: none;
+  border-radius: 0.25em;
+
+  &:hover {
+    background: #e7e7e7
   }
-`
+`;

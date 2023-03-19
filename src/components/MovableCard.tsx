@@ -80,8 +80,7 @@ export default function MovableCard({ pokemon }: MovableCardProps) {
 
     if (!pokemon) return null
     return (
-        <MovableCardContainer
-            as={motion.div}
+        <motion.div
             initial={{ y: document.body.offsetHeight }}
             animate={{ y: 0 }}
             exit={{ y: -document.body.offsetHeight }}
@@ -93,12 +92,9 @@ export default function MovableCard({ pokemon }: MovableCardProps) {
                 <PokemonCardBack src={pokemonCardBack} ref={backRef} />
                 <Glare ref={glareRef} />
             </PokemonCard>
-        </MovableCardContainer>
+        </motion.div>
     )
 }
-
-const MovableCardContainer = styled.div`
-`
 
 const PokemonCard = styled.div`
     position: relative;
