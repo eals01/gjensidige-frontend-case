@@ -1,5 +1,5 @@
 import styled, { css } from 'styled-components';
-import { lookupTypeIcon } from '../resources/typeIcons/typeIcons';
+import { lookupTypeIcon } from '../../resources/typeIcons/typeIcons';
 
 interface TypeIconProps {
   typeName: string;
@@ -7,12 +7,16 @@ interface TypeIconProps {
   stacked?: boolean;
 }
 
-export default function TypeIcon({ typeName, index = 0, stacked = false }: TypeIconProps) {
+export default function TypeIcon({
+  typeName,
+  index = 0,
+  stacked = false
+}: TypeIconProps) {
   const { image, color } = lookupTypeIcon(typeName);
 
   return (
     <TypeIconContainer color={color} index={index} stacked={stacked}>
-      <img src={image} alt={`${typeName} type icon`} />
+      <Icon src={image} alt={`${typeName} type icon`} />
     </TypeIconContainer>
   );
 }
@@ -42,9 +46,9 @@ const TypeIconContainer = styled('div')(
     &:first-child {
       margin-left: 0;
     }
-
-    > img {
-      height: 65%;
-    }
   `
 );
+
+const Icon = styled.img`
+  height: 65%;
+`;

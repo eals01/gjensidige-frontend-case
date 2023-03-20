@@ -4,63 +4,73 @@ import { AnimatePresence } from 'framer-motion';
 import { fetchPokemon } from './utils';
 import { Pokemon } from './types';
 
-import MovableCard from './components/MovableCard';
+import InteractiveContainer from './components/InteractiveContainer';
 import PokemonList from './components/PokemonList';
+import Footer from './components/Footer';
+
+const highestPossiblePokemonID = 649;
 
 export default function App() {
   const [collectedPokemon, setCollectedPokemon] = useState<Pokemon[]>([]);
-  const [drawnPokemonID, setDrawnPokemonID] = useState(Math.ceil(Math.random() * 100));
   const [showcasedPokemon, setShowcasedPokemon] = useState<Pokemon>();
   const [isDrawn, setIsDrawn] = useState(false);
+  const [isNewDraw, setIsNewDraw] = useState(true);
+  const [drawnPokemonID, setDrawnPokemonID] = useState(
+    Math.ceil(Math.random() * highestPossiblePokemonID)
+  );
 
-  useEffect(() => {
-    fetchPokemon(`${drawnPokemonID}`).then(newPokemon => {
-      setShowcasedPokemon(newPokemon);
-      setIsDrawn(true);
-    });
-  }, [drawnPokemonID]);
-
+  const drawDelay = 1100;
   function handleDraw() {
-    const highestPossiblePokemonID = 649;
-    handleDismiss();
+    dismissCard();
+    setIsNewDraw(true);
     setTimeout(() => {
       setDrawnPokemonID(Math.ceil(Math.random() * highestPossiblePokemonID));
-    }, 2100);
+    }, drawDelay);
   }
 
-  function handleDismiss() {
+  function displayPokemon(pokemon: Pokemon) {
+    dismissCard();
+    setIsNewDraw(false);
+    setTimeout(() => {
+      setShowcasedPokemon(pokemon);
+      setIsDrawn(true);
+    }, drawDelay);
+  }
+
+  function dismissCard() {
     if (showcasedPokemon && !collectedPokemon.includes(showcasedPokemon)) {
       setCollectedPokemon([...collectedPokemon, showcasedPokemon]);
     }
     setIsDrawn(false);
   }
 
-  function displayCollectedPokemon(pokemon: Pokemon) {
-    handleDismiss();
-    setTimeout(() => {
-      setShowcasedPokemon(pokemon);
+  useEffect(() => {
+    fetchPokemon(`${drawnPokemonID}`).then((newPokemon) => {
+      setShowcasedPokemon(newPokemon);
       setIsDrawn(true);
-    }, 2100);
-
-  }
+    });
+  }, [drawnPokemonID]);
 
   return (
     <>
       <GlobalStyle />
       <Content>
-        <CardShowcase>
+        <CardArea>
           <AnimatePresence>
-            {isDrawn && <MovableCard pokemon={showcasedPokemon} />}
+            {isDrawn && (
+              <InteractiveContainer
+                pokemon={showcasedPokemon}
+                animateFromBottom={isNewDraw}
+              />
+            )}
           </AnimatePresence>
-        </CardShowcase>
+        </CardArea>
         <PokemonList
           collectedPokemon={collectedPokemon}
-          displayCollectedPokemon={displayCollectedPokemon}
+          displayCollectedPokemon={displayPokemon}
         />
       </Content>
-      <Footer>
-        <DrawButton onClick={handleDraw}>Trekk nytt kort</DrawButton>
-      </Footer>
+      <Footer handleDraw={handleDraw} />
     </>
   );
 }
@@ -75,30 +85,18 @@ const GlobalStyle = createGlobalStyle`
   html, body, #root {
     width: 100%;
     height: 100vh;
-
     overflow: hidden;
   }
   
   #root {
     display: flex;
     flex-direction: column;
-
     font-family: sans-serif;
   }
 `;
 
-const CardShowcase = styled.div`
-  width: 100%;
-  height: 100%;
-
-  display: flex;
-  justify-content: center;
-  align-items: center;
-`;
-
 const Content = styled.div`
   position: relative;
-
   width: 100%;
   height: 100%;
 
@@ -107,25 +105,11 @@ const Content = styled.div`
   align-items: center;
 `;
 
-const Footer = styled.div`
-  z-index: 1;
+const CardArea = styled.div`
+  width: 100%;
+  height: 100%;
 
   display: flex;
   justify-content: center;
   align-items: center;
-
-  width: 100%;
-  height: 4em;
-  background: #e4000f;
-`;
-
-const DrawButton = styled.button`
-  padding: 1em;
-  font-weight: bold;
-  border: none;
-  border-radius: 0.25em;
-
-  &:hover {
-    background: #e7e7e7
-  }
 `;

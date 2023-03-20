@@ -1,16 +1,16 @@
 import { useEffect, useState } from 'react';
 import styled, { css } from 'styled-components';
-import { Move, Pokemon, TypeOfPokemon } from '../types';
-import { fetchMove, fetchType } from '../utils';
-import { lookupTypeIcon } from '../resources/typeIcons/typeIcons';
+import { Move, Pokemon, TypeOfPokemon } from '../../types';
+import { fetchMove, fetchType } from '../../utils';
+import { lookupTypeIcon } from '../../resources/typeIcons/typeIcons';
 
-import SpriteWindow from './SpriteWindow';
+import CardSpriteWindow from './CardSpriteWindow';
 import CardHeader from './CardHeader';
-import MoveList from './MoveList';
+import CardMoveList from './CardMoveList';
 import CardInformation from './CardInformation';
-
-import grain from '../resources/grain.png';
 import CardStats from './CardStats';
+
+import grain from '../../resources/grain.png';
 
 interface PokemonCardProps {
   pokemon?: Pokemon;
@@ -23,23 +23,24 @@ export default function PokemonCardFront({ pokemon }: PokemonCardProps) {
 
   useEffect(() => {
     if (!pokemon) return;
-    const filteredMoves = pokemon.moves.filter((move) => move.version_group_details[0].level_learned_at > 0);
-    Promise.all(
-      filteredMoves.map(move => fetchMove(move.move.url))
-    ).then(newMoves => {
-      const filteredMoves = newMoves.filter((move) => move.type.name === pokemon.types[0].type.name);
-      setMoves(filteredMoves.slice(0, 2));
-    });
+    const filteredMoves = pokemon.moves.filter(
+      (move) => move.version_group_details[0].level_learned_at > 0
+    );
+    Promise.all(filteredMoves.map((move) => fetchMove(move.move.url))).then(
+      (newMoves) => {
+        const filteredMoves = newMoves.filter(
+          (move) => move.type.name === pokemon.types[0].type.name
+        );
+        setMoves(filteredMoves.slice(0, 2));
+      }
+    );
 
-    fetchType(pokemon.types[0].type.url).then(newType => {
+    fetchType(pokemon.types[0].type.url).then((newType) => {
       setType(newType);
     });
 
     setCardColor(lookupTypeIcon(pokemon.types[0].type.name).color);
   }, [pokemon]);
-
-
-
 
   if (!pokemon || !type) return null;
   return (
@@ -47,9 +48,9 @@ export default function PokemonCardFront({ pokemon }: PokemonCardProps) {
       <Content pokemonColor={cardColor}>
         <Grain src={grain} alt='background grain' />
         <CardHeader pokemon={pokemon} />
-        <SpriteWindow pokemon={pokemon} />
+        <CardSpriteWindow pokemon={pokemon} />
         <CardInformation pokemon={pokemon} />
-        <MoveList moves={moves} />
+        <CardMoveList moves={moves} />
         <CardStats type={type} />
       </Content>
       <Copyright>
