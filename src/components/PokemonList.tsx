@@ -4,6 +4,7 @@ import styled from "styled-components";
 import { Pokemon } from "../types";
 
 import arrow from '../resources/arrow.svg';
+import search from '../resources/search.svg';
 import pikachuIcon from '../resources/pikachuIcon.svg';
 
 interface PokemonListProps {
@@ -12,7 +13,10 @@ interface PokemonListProps {
 }
 
 export default function PokemonList({ collectedPokemon, displayCollectedPokemon }: PokemonListProps) {
+    const [searchPrompt, setSearchPrompt] = useState('');
     const [expanded, setExpanded] = useState(false);
+
+    const filteredCollectedPokemon = collectedPokemon.filter((pokemon) => pokemon.name.includes(searchPrompt));
 
     return (
         <PokemonListContainer>
@@ -26,7 +30,13 @@ export default function PokemonList({ collectedPokemon, displayCollectedPokemon 
             </ExpandButton>
             {collectedPokemon.length === 0 && (
                 <Placeholder>
-                    <span>Samlede Pokémon vises her</span>
+                    <span>Samlede pokemon vises her</span>
+                    <img src={pikachuIcon} alt='pikachu icon' />
+                </Placeholder>
+            )}
+            {collectedPokemon.length > 0 && filteredCollectedPokemon.length === 0 && (
+                <Placeholder>
+                    <span>Ingen pokemon ble funnet</span>
                     <img src={pikachuIcon} alt='pikachu icon' />
                 </Placeholder>
             )}
@@ -35,12 +45,21 @@ export default function PokemonList({ collectedPokemon, displayCollectedPokemon 
                 initial={{ width: 250 }}
                 animate={{ width: expanded ? 500 : 250 }}
             >
+                <Search>
+                    <input
+                        type='text'
+                        value={searchPrompt}
+                        onChange={(event) => setSearchPrompt(event.target.value)}
+                    />
+                    <img src={search} alt='magnifying glass' />
+                </Search>
                 <List>
-                    {collectedPokemon.map((pokemon) => {
+                    {filteredCollectedPokemon.map((pokemon) => {
                         return (
                             <ListItem
                                 key={`${pokemon.name} list item`}
                                 as={motion.div}
+                                layout
                                 initial={{ y: document.body.offsetHeight }}
                                 animate={{ y: 0 }}
                                 transition={{ duration: 0.5, delay: 0.3 }}
@@ -68,15 +87,49 @@ const PokemonListContainer = styled.div`
     background: #e7e7e7;
 `;
 
+const Search = styled.div`
+    width: 250px;
+    padding: 1em;
+    padding-bottom: 0;
+
+    display: flex;
+    justify-content: center;
+
+    > input {
+        height: 3em;
+        width: 100%;
+
+        padding-left: 1em;
+        border: 1px solid gray;
+        border-right: none;
+
+        &:focus {
+            outline: none;
+        }
+    }
+
+    > img {
+        height: 2.5em;
+        border: 1px solid gray;
+        border-left: none;
+        background: white;
+    }
+`;
+
 const Placeholder = styled.div`
-    height: 100%;
-    max-width: 250px;
+    position: absolute;
 
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
 
+    height: 100%;
+    width: 100%;
+    max-width: 250px;
+    padding: 0 1em;
+    text-align: center;
+    
     > img {
         height: 2em;
     }
@@ -136,6 +189,7 @@ const ListItem = styled.div`
     align-items: center;
 
     background: #c6c6c6;
+    text-align: center;
 
     &:hover {
         background: #a5a5a5;
