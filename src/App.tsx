@@ -8,6 +8,8 @@ import InteractiveContainer from './components/InteractiveContainer';
 import PokemonList from './components/PokemonList';
 import Footer from './components/Footer';
 
+import stadiumBackground from './resources/stadiumBackground.png';
+
 const highestPossiblePokemonID = 649;
 
 export default function App() {
@@ -103,6 +105,11 @@ const Content = styled.div`
   display: flex;
   justify-content: space-between;
   align-items: center;
+  background-color: black;
+  background-image: url(${stadiumBackground});
+  background-size: auto 100%;
+  background-repeat: no-repeat;
+  background-position: bottom;
 `;
 
 const CardArea = styled.div`

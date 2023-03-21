@@ -56,7 +56,6 @@ export default function PokemonList({
           </AnimatePresence>
         </List>
       </ListContainer>
-      <BottomGradient className='bruh' />
     </PokemonListContainer>
   );
 }
@@ -68,7 +67,8 @@ const PokemonListContainer = styled.div`
   height: 100%;
   flex: 0 0 500;
 
-  background: #e7e7e7;
+  background: #e7e7e730;
+  backdrop-filter: blur(10px);
 `;
 
 const ListContainer = styled.div`
@@ -85,16 +85,4 @@ const List = styled.div`
   flex-wrap: wrap;
   padding: 1em;
   gap: 1em;
-`;
-
-const BottomGradient = styled.div`
-  position: absolute;
-  bottom: 0;
-  left: 0;
-
-  width: 100%;
-  height: 50px;
-  background: linear-gradient(180deg, #e7e7e700 0%, #e7e7e7ff 75%);
-
-  pointer-events: none;
 `;

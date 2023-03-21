@@ -36,11 +36,11 @@ const PokemonListItemContainer = styled.div`
   justify-content: center;
   align-items: center;
 
-  background: #c6c6c6;
+  background: #c6c6c630;
   text-align: center;
 
   &:hover {
-    background: #a5a5a5;
+    background: #c6c6c650;
   }
 
   > span {
@@ -48,5 +48,6 @@ const PokemonListItemContainer = styled.div`
     bottom: 0;
     text-transform: capitalize;
     font-weight: bold;
+    color: #1f1f1f;
   }
 `;

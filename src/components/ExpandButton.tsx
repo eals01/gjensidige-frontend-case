@@ -38,10 +38,10 @@ const ExpandButtonContainer = styled.div`
 
   width: 50px;
   height: 50px;
-  background: #e7e7e7;
+  background: #e7e7e730;
 
   &:hover {
-    background: #c6c6c6;
+    background: #c6c6c625;
   }
 
   > img {

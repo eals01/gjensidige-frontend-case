@@ -21,14 +21,15 @@ const FooterContainer = styled.div`
 
   width: 100%;
   height: 4em;
-  background: #e4000f;
+  background: #141414;
 `;
 
 const DrawButton = styled.button`
   padding: 1em;
   font-weight: bold;
   border: none;
-  border-radius: 0.25em;
+  border-radius: 0;
+  background: #a0a0a0;
 
   &:hover {
     background: #e7e7e7;

@@ -29,6 +29,7 @@ const PlaceholderTextContainer = styled.div`
   max-width: 250px;
   padding: 0 1em;
   text-align: center;
+  pointer-events: none;
 
   > img {
     height: 2em;
@@ -36,5 +37,6 @@ const PlaceholderTextContainer = styled.div`
 
   > span {
     font-weight: bold;
+    color: #c5c5c5;
   }
 `;

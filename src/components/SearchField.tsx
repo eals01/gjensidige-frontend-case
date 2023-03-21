@@ -40,9 +40,15 @@ const SearchFieldContainer = styled.div`
     padding-left: 1em;
     border: 1px solid gray;
     border-right: none;
+    background: #c6c6c630;
+    color: white;
 
     &:focus {
       outline: none;
+    }
+
+    &::placeholder {
+      color: #949494;
     }
   }
 `;
@@ -51,5 +57,5 @@ const MagnifyingGlass = styled.img`
   height: 2.5em;
   border: 1px solid gray;
   border-left: none;
-  background: white;
+  background: #c6c6c630;
 `;
